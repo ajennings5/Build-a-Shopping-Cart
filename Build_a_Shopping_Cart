@@ -1,0 +1,83 @@
+// Create an array named products
+const products = [
+  {
+    name: "Cherry",
+    price: 2.99,
+    quantity: 0,
+    productId: 101,
+    image: "/images/cherry.jpg"
+  },
+  {
+    name: "Orange",
+    price: 1.49,
+    quantity: 0,
+    productId: 102,
+    image: "/images/orange.jpg"
+  },
+  {
+    name: "Strawberry",
+    price: 3.99,
+    quantity: 0,
+    productId: 103,
+    image: "/images/strawberry.jpg"
+  }
+];
+
+// Declare an empty array named cart
+let cart = [];
+
+// Add product to cart
+function addProductToCart(productId) {
+  const product = products.find(p => p.productId === productId);
+  if (!product) return;
+
+  product.quantity++;
+  if (!cart.includes(product)) {
+    cart.push(product);
+  }
+}
+
+// Increase quantity
+function increaseQuantity(productId) {
+  const product = products.find(p => p.productId === productId);
+  if (product) {
+    product.quantity++;
+  }
+}
+
+// Decrease quantity
+function decreaseQuantity(productId) {
+  const product = products.find(p => p.productId === productId);
+  if (product && product.quantity > 0) {
+    product.quantity--;
+    if (product.quantity === 0) {
+      cart = cart.filter(item => item.productId !== productId);
+    }
+  }
+}
+
+// Remove product from cart
+function removeProductFromCart(productId) {
+  const product = products.find(p => p.productId === productId);
+  if (product) {
+    product.quantity = 0;
+    cart = cart.filter(item => item.productId !== productId);
+  }
+}
+
+// Calculate cart total
+function cartTotal() {
+  return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+}
+
+// Empty the cart
+function emptyCart() {
+  cart.forEach(item => item.quantity = 0);
+  cart = [];
+}
+
+// Pay function
+function pay(amount) {
+  const total = cartTotal();
+  return amount - total;
+}
